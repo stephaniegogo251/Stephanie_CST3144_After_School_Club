@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=shopping_cart" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script src="lessons.js"></script>
+    <title>After School Club</title>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1 v-text="sitename"></h1>
+            <!-- <button v-on:click="showCheckout" id="checkout" style="color: #e1a587; font-size: 48px;">
+                <span class="fas fa-cart-plus"></span>
+                {{cartItemCount}}
+            </button> -->
+            <button>
+                <span id="count">{{ cartItemCount }}</span>
+                <span class="material-symbols-outlined" style="color: #e1a587; font-size: 60px;">&#xe8cc;</span>
+            </button>
+        </header>
+        <main class="lesson-rows">
+            <div v-for="lesson in lessons">
+                <div class="lesson">
+                    <div class="top-lesson">
+                        <p><b>{{lesson.id}}<span style="margin-left: 100px;">{{lesson.name}}</span></b></p>
+                    </div>
+                    <div class="mid-lesson">
+                        <figure>
+                            <img v-bind:src="lesson.image" height="120px" width="120px">
+                        </figure>
+                        <div>
+                            <p>Location: {{lesson.location}}</p>
+                            <p>Price: {{lesson.price}}</p>
+                            <p>Seats Available: {{ lesson.availableSeats }}</p>
+                        </div>
+                    </div>
+                    <div class="bottom-lesson">
+                        <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">
+                            Add to Cart
+                        </button>
+                        <button disabled="disabled" v-else>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="text/javascript">
+        let webstore = new Vue({
+            el:'#app',
+            data: {
+                sitename: "After School Club",
+                lessons: lessons,
+                showLesson: true,
+                cart: [], //array to store items added to the cart
+            },
+            methods: {
+                addToCart(lesson) {
+                    this.cart.push(lesson.id);
+                },
+                canAddToCart(lesson) {
+                    return lesson.availableInventory > this.cartCount(lesson.id);
+                },
+                showShoppingCart() {
+                    this.showShoppingCart = this.showShoppingCart ? false : true;
+                },
+                cartCount(id) {
+                    let count = 0;
+                    for (let i = 0; i < this.cart.length; i++){
+                        if (this.cart[i] === id) {
+                            count++;
+                        }
+                    }
+                    return count;
+                }
+            },
+            computed: {
+                cartItemCount: function() {
+                    return this.cart.length || "";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
