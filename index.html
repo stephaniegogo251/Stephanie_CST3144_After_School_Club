@@ -12,40 +12,50 @@
     <div id="app">
         <header>
             <h1 v-text="sitename"></h1>
-            <!-- <button v-on:click="showCheckout" id="checkout" style="color: #e1a587; font-size: 48px;">
-                <span class="fas fa-cart-plus"></span>
-                {{cartItemCount}}
-            </button> -->
             <button>
                 <span id="count">{{ cartItemCount }}</span>
                 <span class="material-symbols-outlined" style="color: #e1a587; font-size: 60px;">&#xe8cc;</span>
             </button>
         </header>
-        <main class="lesson-rows">
-            <div v-for="lesson in lessons">
-                <div class="lesson">
-                    <div class="top-lesson">
-                        <p><b>{{lesson.id}}<span style="margin-left: 100px;">{{lesson.name}}</span></b></p>
-                    </div>
-                    <div class="mid-lesson">
-                        <figure>
-                            <img v-bind:src="lesson.image" height="120px" width="120px">
-                        </figure>
-                        <div>
-                            <p>Location: {{lesson.location}}</p>
-                            <p>Price: {{lesson.price}}</p>
-                            <p>Seats Available: {{ lesson.availableSeats }}</p>
+        <main v-if="showLesson">
+            <div class="lesson-rows">
+                <div v-for="lesson in lessons">
+                    <div class="lesson">
+                        <div class="top-lesson">
+                            <p><b>{{lesson.id}}<span style="margin-left: 100px;">{{lesson.name}}</span></b></p>
+                        </div>
+                        <div class="mid-lesson">
+                            <figure>
+                                <img v-bind:src="lesson.image" height="120px" width="120px">
+                            </figure>
+                            <div>
+                                <p>Location: {{lesson.location}}</p>
+                                <p>Price: {{lesson.price}}</p>
+                                <p>Seats Available: {{ lesson.availableSeats }}</p>
+                            </div>
+                        </div>
+                        <div class="bottom-lesson">
+                            <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">
+                                Add to Cart
+                            </button>
+                            <button disabled="disabled" v-else>
+                                Add to Cart
+                            </button>
+                            <span v-if="product.availableInventory === cartCount(product.id)">
+                                All out!
+                            </span>
+                            <span v-else-if="product.availableInventory - cartCount(product.id) < 5">
+                                Only {{product.availableInventory - cartCount(product.id)}} left!
+                            </span>
+                            <span v-else>
+                                Buy Now!
+                            </span>
                         </div>
                     </div>
-                    <div class="bottom-lesson">
-                        <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">
-                            Add to Cart
-                        </button>
-                        <button disabled="disabled" v-else>
-                            Add to Cart
-                        </button>
-                    </div>
                 </div>
+            </div>
+            <div v-else>
+                <h2>Checkout</h2>
             </div>
         </main>
     </div>
