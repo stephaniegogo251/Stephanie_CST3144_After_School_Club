@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* CSS HEX */
+:root {
+    --asc-peach: #E1A587;
+    --asc-pink: #A42D55;
+    --asc-dpink: #633040;
+    --asc-dmagenta: #31282D;
+}
+
+body {
+    margin: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    background-image: url(images/bg.jpg);
+}
+
+header {
+    text-align: center;
+    display: flex;
+    gap: 27%;
+    font-family: "Quicksand", "sans-serif";
+    font-size: 40px;
+    margin-left: 450px;
+    color: var(--asc-peach);
+    text-shadow: 
+        -2px -2px 0 var(--asc-dpink), /* Top-left */
+        2px -2px 0 var(--asc-dpink),  /* Top-right */
+        -2px 2px 0 var(--asc-dpink),  /* Bottom-left */
+        2px 2px 0 var(--asc-dpink);   /* Bottom-right */
+}
+
+header button {
+    background-color: transparent;
+    border: none;
+}
+
+#count {
+    color: var(--asc-peach);
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.lesson-rows {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.lesson {
+    display: flex;
+    flex-direction: column;
+    padding-left: 120px;
+    padding-bottom: 30px;
+}
+
+.lesson div {
+    font-family: "Poppins", "sans-serif";
+}
+
+html {
+    scrollbar-color: var(--asc-pink) var(--asc-dpink);
+}
+
+/* .top-lesson {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+} */
+
+.mid-lesson {
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+}
