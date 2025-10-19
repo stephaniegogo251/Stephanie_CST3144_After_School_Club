@@ -57,7 +57,7 @@ let lessons = [
     },
     {
         id: "ASC008",
-        name: "Roller Skating Club",
+        name: "Skating Club",
         location: "Sharjah",
         price: 150,
         image: "images/basic.png",

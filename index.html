@@ -12,9 +12,9 @@
     <div id="app">
         <header>
             <h1 v-text="sitename"></h1>
-            <button>
-                <span id="count">{{ cartItemCount }}</span>
-                <span class="material-symbols-outlined" style="color: #e1a587; font-size: 60px;">&#xe8cc;</span>
+            <button v-on:click="showShoppingCart" class="shopping-cart">
+                {{ cartItemCount }}
+                <span class="material-symbols-outlined" style="color: #A42D55; font-size: 30px;">&#xe8cc;</span>
             </button>
         </header>
         <main>
@@ -23,11 +23,11 @@
                     <div v-for="lesson in lessons">
                         <div class="lesson">
                             <div class="top-lesson">
-                                <p><b>{{lesson.id}}<span style="margin-left: 100px;">{{lesson.name}}</span></b></p>
+                                <p><b>{{lesson.id}}<span style="margin-left: 45px;">{{lesson.name}}</span></b></p>
                             </div>
                             <div class="mid-lesson">
                                 <figure>
-                                    <img v-bind:src="lesson.image" height="120px" width="120px">
+                                    <img v-bind:src="lesson.image" class="icon">
                                 </figure>
                                 <div>
                                     <p>Location: {{lesson.location}}</p>
@@ -36,20 +36,20 @@
                                 </div>
                             </div>
                             <div class="bottom-lesson">
-                                <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">
+                                <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)" class="addToCartBtn">
                                     Add to Cart
                                 </button>
-                                <button disabled="disabled" v-else>
+                                <button disabled="disabled" v-else class="addToCartBtn">
                                     Add to Cart
                                 </button>
                                 <span v-if="lesson.availableSeats === cartCount(lesson.id)">
-                                    All out!
+                                    Club Full!
                                 </span>
-                                <span v-else-if="lesson.availableSeats - cartCount(lesson.id) < 5">
-                                    Only {{lesson.availableSeats - cartCount(lesson.id)}} left!
+                                <span v-else-if="lesson.availableSeats - cartCount(lesson.id) < 5" id="mid">
+                                    Just {{lesson.availableSeats - cartCount(lesson.id)}} spots left!
                                 </span>
                                 <span v-else>
-                                    Buy Now!
+                                    Join Now!
                                 </span>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div v-else>
-                <h2>Checkout</h2>
+                <h2 class="checkout">Checkout</h2>
             </div>
         </main>
     </div>
@@ -78,7 +78,7 @@
                     return lesson.availableSeats > this.cartCount(lesson.id);
                 },
                 showShoppingCart() {
-                    this.showShoppingCart = this.showShoppingCart ? false : true;
+                    this.showLesson = this.showLesson ? false : true;
                 },
                 cartCount(id) {
                     let count = 0;
