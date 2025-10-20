@@ -4,7 +4,7 @@ let lessons = [
         name: "Music Club",
         location: "Dubai",
         price: 150,
-        image: "images/basic.png",
+        image: "images/music.png",
         availableSeats: 5
     },
     {
@@ -12,7 +12,7 @@ let lessons = [
         name: "Dance Club",
         location: "Dubai",
         price: 100,
-        image: "images/basic.png",
+        image: "images/dance.png",
         availableSeats: 5
     },
     {
@@ -20,7 +20,7 @@ let lessons = [
         name: "Writing Club",
         location: "Dubai",
         price: 40,
-        image: "images/basic.png",
+        image: "images/writing.png",
         availableSeats: 5
     },
     {
@@ -28,7 +28,7 @@ let lessons = [
         name: "Poetry Club",
         location: "Dubai",
         price: 40,
-        image: "images/basic.png",
+        image: "images/poetry.png",
         availableSeats: 5
     },
     {
@@ -36,7 +36,7 @@ let lessons = [
         name: "Book Club",
         location: "Dubai",
         price: 50,
-        image: "images/basic.png",
+        image: "images/book.png",
         availableSeats: 5 
     },
     {
@@ -44,7 +44,7 @@ let lessons = [
         name: "Theatre Club",
         location: "Abu Dhabi",
         price: 65,
-        image: "images/basic.png",
+        image: "images/theatre.png",
         availableSeats: 5
     },
     {
@@ -52,7 +52,7 @@ let lessons = [
         name: "Debate Club",
         location: "Abu Dhabi",
         price: 40,
-        image: "images/basic.png",
+        image: "images/debate.png",
         availableSeats: 5
     },
     {
@@ -60,7 +60,7 @@ let lessons = [
         name: "Skating Club",
         location: "Sharjah",
         price: 150,
-        image: "images/basic.png",
+        image: "images/skating.png",
         availableSeats: 5
     },
     {
@@ -68,15 +68,15 @@ let lessons = [
         name: "Gaming Club",
         location: "Sharjah",
         price: 50,
-        image: "images/basic.png",
+        image: "images/gaming.png",
         availableSeats: 5
     },
     {
         id: "ASC010",
-        name: "Drawing Club",
+        name: "Art Club",
         location: "Sharjah",
         price: 70,
-        image: "images/basic.png",
+        image: "images/art.png",
         availableSeats: 5
     },
     {
@@ -84,7 +84,7 @@ let lessons = [
         name: "Culinary Club",
         location: "Dubai",
         price: 40,
-        image: "images/basic.png",
+        image: "images/culinary.png",
         availableSeats: 5
     },
     {
@@ -92,7 +92,7 @@ let lessons = [
         name: "Photography Club",
         location: "Abu Dhabi",
         price: 70,
-        image: "images/basic.png",
+        image: "images/photography.png",
         availableSeats: 5
     },
     {
@@ -100,15 +100,15 @@ let lessons = [
         name: "Chess Club",
         location: "Abu Dhabi",
         price: 50,
-        image: "images/basic.png",
+        image: "images/chess.png",
         availableSeats: 5
     },
     {
         id: "ASC014",
-        name: "Painting Club",
+        name: "Coding Club",
         location: "Dubai",
         price: 100,
-        image: "images/basic.png",
+        image: "images/coding.png",
         availableSeats: 5
     },
     {
@@ -116,7 +116,7 @@ let lessons = [
         name: "Swimming Club",
         location: "Sharjah",
         price: 100,
-        image: "images/basic.png",
+        image: "images/swimming.png",
         availableSeats: 5 
     }
 ]

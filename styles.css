@@ -82,13 +82,13 @@ header button {
 }
 
 .lesson:hover {
-    /* border-style: dashed; */
     background-color: rgb(225, 165, 135);
 }
 
 .top-lesson {
     margin-left: 20px;
     margin-top: 15px;
+    font-size: 20px
 }
 
 .mid-lesson {
@@ -149,5 +149,5 @@ header button {
 
 .addToCartBtn:disabled {
     background-color: rgba(164, 45, 85,0.5);
-    cursor: auto;
+    cursor: not-allowed;
 }
