@@ -61,7 +61,34 @@
                 </div>
             </div>
             <div v-else>
-                <h2 class="checkout">Cart</h2>
+                <h2 class="checkout"><span class="fas fa-shopping-cart" style="color: #E1A587; font-size: 40px; margin-right: 15px;"></span>Cart</h2>
+                <div class="lesson-scroll">
+                    <div v-for="lesson in selectedLessons">
+                        <div class="lesson-scroll-sep">
+                            <div class="top-lesson">
+                                <p style="text-align: center;"><b>{{lesson.name}}</b></p>
+                            </div>
+                            <div class="mid-lesson">
+                                <figure>
+                                    <img v-bind:src="lesson.image" class="icon">
+                                </figure>
+                                <div>
+                                    <p>Location: {{lesson.location}}</p>
+                                    <p>Price: {{lesson.price}}</p>
+                                    <!-- <p>Seats Available: {{ lesson.availableSeats - lesson.quantity }}</p> -->
+                                    <p>Seats Booked: {{ lesson.quantity }}</p>
+                                </div>
+                            </div>
+                            <div class="bottom-lesson">
+                                <button v-on:click="removeFromCart(lesson)" v-if="lesson.quantity > 1" class="addToCartBtn" style="margin-left: 60px;">
+                                    <span class="fas fa-minus-square" style="color: #E1A587; font-size: 15px; margin-right: 15px; margin-left: 0px;"></span>Remove Seat
+                                </button>
+                                <button v-on:click="removeFromCart(lesson)" v-else-if="lesson.quantity === 1" class="addToCartBtn" style="margin-left: 40px;">
+                                    <span class="far fa-trash-alt" style="color: #E1A587; font-size: 15px; margin-right: 15px; margin-left: 0px;"></span>Remove from Cart                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -102,11 +129,37 @@
                         }
                     }
                     return count;
+                },
+                removeFromCart(lesson) {
+                    const lessonCount = this.cartCount(lesson.id);
+
+                    if (lessonCount > 1) {
+                        const index = this.cart.indexOf(lesson.id);
+                        if (index !== -1) {
+                            this.cart.splice(index, 1);
+                            lesson.quantity -= 1;
+                        }
+                    } 
+                    else if (lessonCount === 1) {
+                        this.cart = this.cart.filter(id => id !== lesson.id);
+                        this.confirmCart = this.confirmCart.filter(id => id !== lesson.id);
+                        lesson.quantity = 0;
+                    }
+
+                    if (this.cart.length === 0){
+                        this.showLesson = true;
+                    }
                 }
+
             },
             computed: {
-                cartItemCount: function() {
+                cartItemCount() {
                     return this.cart.length || "";
+                },
+                selectedLessons() {
+                    for (let i = 0; i < this.confirmCart.length; i++) {
+                        return this.lessons.filter(lesson => this.confirmCart.includes(lesson.id));
+                    }
                 }
             }
         });
