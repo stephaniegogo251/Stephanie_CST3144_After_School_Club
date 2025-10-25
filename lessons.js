@@ -5,7 +5,8 @@ let lessons = [
         location: "Dubai",
         price: 150,
         image: "images/music.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC002",
@@ -13,7 +14,8 @@ let lessons = [
         location: "Dubai",
         price: 100,
         image: "images/dance.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC003",
@@ -21,7 +23,8 @@ let lessons = [
         location: "Dubai",
         price: 40,
         image: "images/writing.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC004",
@@ -29,7 +32,8 @@ let lessons = [
         location: "Dubai",
         price: 40,
         image: "images/poetry.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC005",
@@ -37,7 +41,8 @@ let lessons = [
         location: "Dubai",
         price: 50,
         image: "images/book.png",
-        availableSeats: 5 
+        availableSeats: 5,
+        quantity: 0 
     },
     {
         id: "ASC006",
@@ -45,7 +50,8 @@ let lessons = [
         location: "Abu Dhabi",
         price: 65,
         image: "images/theatre.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC007",
@@ -53,7 +59,8 @@ let lessons = [
         location: "Abu Dhabi",
         price: 40,
         image: "images/debate.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC008",
@@ -61,7 +68,8 @@ let lessons = [
         location: "Sharjah",
         price: 150,
         image: "images/skating.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC009",
@@ -69,7 +77,8 @@ let lessons = [
         location: "Sharjah",
         price: 50,
         image: "images/gaming.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC010",
@@ -77,7 +86,8 @@ let lessons = [
         location: "Sharjah",
         price: 70,
         image: "images/art.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC011",
@@ -85,7 +95,8 @@ let lessons = [
         location: "Dubai",
         price: 40,
         image: "images/culinary.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC012",
@@ -93,7 +104,8 @@ let lessons = [
         location: "Abu Dhabi",
         price: 70,
         image: "images/photography.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC013",
@@ -101,7 +113,8 @@ let lessons = [
         location: "Abu Dhabi",
         price: 50,
         image: "images/chess.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC014",
@@ -109,7 +122,8 @@ let lessons = [
         location: "Dubai",
         price: 100,
         image: "images/coding.png",
-        availableSeats: 5
+        availableSeats: 5,
+        quantity: 0
     },
     {
         id: "ASC015",
@@ -117,6 +131,7 @@ let lessons = [
         location: "Sharjah",
         price: 100,
         image: "images/swimming.png",
-        availableSeats: 5 
+        availableSeats: 5,
+        quantity: 0 
     }
 ]

@@ -12,9 +12,13 @@
     <div id="app">
         <header>
             <h1 v-text="sitename"></h1>
-            <button v-on:click="showShoppingCart" class="shopping-cart">
-                {{ cartItemCount }}
+            <button v-on:click="showShoppingCart" class="shopping-cart" v-if="enableCart()">
                 <span class="material-symbols-outlined" style="color: #A42D55; font-size: 30px;">&#xe8cc;</span>
+                <span class="cart-count">{{ cartItemCount }}</span>
+            </button>
+            <button disabled="disabled" class="shopping-cart" v-else>
+                <span class="material-symbols-outlined" style="color: #A42D55; font-size: 30px;">&#xe8cc;</span>
+                <span class="cart-count">{{ cartItemCount }}</span>
             </button>
         </header>
         <main>
@@ -32,15 +36,15 @@
                                 <div>
                                     <p>Location: {{lesson.location}}</p>
                                     <p>Price: {{lesson.price}}</p>
-                                    <p>Seats Available: {{ lesson.availableSeats }}</p>
+                                    <p>Seats Available: {{ lesson.availableSeats - lesson.quantity }}</p>
                                 </div>
                             </div>
                             <div class="bottom-lesson">
                                 <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)" class="addToCartBtn">
-                                    Add to Cart
+                                    <span class="fas fa-cart-plus" style="color: #E1A587; font-size: 15px; margin-right: 10px; margin-left: 0px;"></span>Add to Cart
                                 </button>
                                 <button disabled="disabled" v-else class="addToCartBtn">
-                                    Add to Cart
+                                    <span class="fas fa-cart-plus" style="color: #E1A587; font-size: 15px; margin-right: 10px; margin-left: 0px;"></span>Add to Cart
                                 </button>
                                 <span v-if="lesson.availableSeats === cartCount(lesson.id)">
                                     Club Full!
@@ -57,7 +61,7 @@
                 </div>
             </div>
             <div v-else>
-                <h2 class="checkout">Checkout</h2>
+                <h2 class="checkout">Cart</h2>
             </div>
         </main>
     </div>
@@ -69,16 +73,26 @@
                 lessons: lessons,
                 showLesson: true,
                 cart: [], //array to store items added to the cart
+                confirmCart: []
             },
             methods: {
                 addToCart(lesson) {
                     this.cart.push(lesson.id);
+                    lesson.quantity = lesson.quantity += 1;
+                    if (!this.confirmCart.includes(lesson.id)){
+                        this.confirmCart.push(lesson.id);
+                    }
+                    // console.log(this.cart);
+                    // console.log(this.confirmCart);
                 },
                 canAddToCart(lesson) {
                     return lesson.availableSeats > this.cartCount(lesson.id);
                 },
                 showShoppingCart() {
                     this.showLesson = this.showLesson ? false : true;
+                },
+                enableCart() {
+                    return this.cartItemCount > 0;
                 },
                 cartCount(id) {
                     let count = 0;
