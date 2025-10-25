@@ -89,6 +89,21 @@
                         </div>
                     </div>
                 </div>
+                <h2>Booking Details</h2>
+                <p>
+                    <strong>Full Name:</strong><input v-model.trim="booking.fullName"/>
+                </p>
+                <p>
+                    <strong>Phone No:</strong><input v-model.trim="booking.phone"/>
+                </p>
+                <p>
+                    <strong>Email:</strong><input v-model.trim="booking.email"/>
+                </p>
+                <h2>Confirm Details</h2>
+                <p>Full Name: {{booking.fullName}}</p>
+                <p>Phone No: {{booking.phone}}</p>
+                <p>Email: {{booking.email}}</p>
+                <button v-on:click="submitForm">Place Order</button>
             </div>
         </main>
     </div>
@@ -100,7 +115,12 @@
                 lessons: lessons,
                 showLesson: true,
                 cart: [], //array to store items added to the cart
-                confirmCart: []
+                confirmCart: [],
+                booking: {
+                    fullname: "",
+                    phone: "",
+                    email: ""
+                }
             },
             methods: {
                 addToCart(lesson) {
@@ -149,8 +169,28 @@
                     if (this.cart.length === 0){
                         this.showLesson = true;
                     }
+                },
+                submitForm() {
+                    if (this.booking.fullname === "" || this.booking.phone === "" || this.booking.email === ""){
+                        alert("All fields are required to complete booking!");
+                    }
+                    else {
+                        const phoneNumPattern = /^05\d{8}$/;
+                        const emailIDPattern = /^[\w._]+@[\w]+.com$/;
+                        if (!phoneNumPattern.test(this.booking.phone)){
+                            alert("Invalid phone number! Please follow 05XXXXXXXX format.");
+                        }
+                        else if (!emailIDPattern.test(this.booking.email)){
+                            alert("Invalid email address!");
+                        }
+                        else {
+                            alert("Booking successful!");
+                            this.booking.fullname = "";
+                            this.booking.phone = "";
+                            this.booking.email = "";
+                        }
+                    }
                 }
-
             },
             computed: {
                 cartItemCount() {
