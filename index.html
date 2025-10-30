@@ -23,8 +23,27 @@
         </header>
         <main>
             <div v-if="showLesson">
+                <div class="sub-menu">
+                    <div class="sort-menu">
+                        <label for="sortBy">Sort By:</label>
+                        <select id="sortBy" v-model="sortBy">
+                            <option value="selected" selected>Select</option>
+                            <option value="name">Name</option>
+                            <option value="location">Location</option>
+                            <option value="price">Price</option>
+                            <option value="seats">Seats</option>
+                        </select>
+                    </div>
+                    <div class="order-menu">
+                        <label for="orderBy">Order By:</label>
+                        <select id="orderBy" v-model="orderBy">
+                            <option value="asc" selected>Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="lesson-rows">
-                    <div v-for="lesson in lessons">
+                    <div v-for="lesson in sortedLessons">
                         <div class="lesson">
                             <div class="top-lesson">
                                 <p style="text-align: center;"><b>{{lesson.name}}</b></p>
@@ -75,7 +94,6 @@
                                 <div>
                                     <p>Location: {{lesson.location}}</p>
                                     <p>Price: {{lesson.price}}</p>
-                                    <!-- <p>Seats Available: {{ lesson.availableSeats - lesson.quantity }}</p> -->
                                     <p>Seats Booked: {{ lesson.quantity }}</p>
                                 </div>
                             </div>
@@ -103,7 +121,8 @@
                         <p><b>Email:</b> {{booking.email}}</p>
                     </div>
                 </div>
-                <button v-on:click="submitForm()">Place Order</button>
+                <button v-on:click="submitForm()" v-if="canSubmitForm()" class="bookSeatBtn">Book Seats</button>
+                <button v-on:click="submitForm()" v-else class="bookSeatBtn" disabled="disabled">Book Seats</button>
             </div>
         </main>
     </div>
@@ -120,7 +139,9 @@
                     fullname: "",
                     phone: "",
                     email: ""
-                }
+                },
+                sortBy: "selected",
+                orderBy: "asc"
             },
             methods: {
                 addToCart(lesson) {
@@ -169,22 +190,38 @@
                     }
                 },
                 submitForm() {
-                    if (this.booking.fullname === "" || this.booking.phone === "" || this.booking.email === ""){
-                        alert("All fields are required to complete booking!");
+                    const namePattern = /^[A-Za-z\s]+$/;
+                    const phoneNumPattern = /^05\d{8}$/;
+                    const emailIDPattern = /^[\w._]+@[\w]+.com$/;
+
+                    const valid = (
+                        (this.booking.fullname !== "") && (namePattern.test(this.booking.fullname))) && 
+                        (phoneNumPattern.test(this.booking.phone)) && 
+                        (emailIDPattern.test(this.booking.email));
+
+                    if (valid) {
+                        alert("Seats booked successfully!");
+
+                        this.booking.fullname = "";
+                        this.booking.phone = "";
+                        this.booking.email = "";
+
+                        this.cart = [];
+                        this.confirmCart = [];
+                        this.lessons.forEach(lesson => {
+                            lesson.quantity = 0;
+                        });
+
+                        this.showLesson = true;
+                        return true;
                     }
-                    else {
-                        const phoneNumPattern = /^05\d{8}$/;
-                        const emailIDPattern = /^[\w._]+@[\w]+.com$/;
-                        if (!phoneNumPattern.test(this.booking.phone)){
-                            alert("Invalid phone number! Please follow 05XXXXXXXX format.");
-                        }
-                        else if (!emailIDPattern.test(this.booking.email)){
-                            alert("Invalid email address!");
-                        }
-                        else {
-                            alert("Booking successful!");
-                        }
-                    }
+                },
+                canSubmitForm() {
+                    const namePattern = /^[A-Za-z\s]+$/;
+                    const phoneNumPattern = /^05\d{8}$/;
+                    const emailIDPattern = /^[\w._]+@[\w]+.com$/;
+
+                    return (((this.booking.fullname !== "") && (namePattern.test(this.booking.fullname))) && (phoneNumPattern.test(this.booking.phone)) && (emailIDPattern.test(this.booking.email)));
                 }
             },
             computed: {
@@ -195,6 +232,50 @@
                     for (let i = 0; i < this.confirmCart.length; i++) {
                         return this.lessons.filter(lesson => this.confirmCart.includes(lesson.id));
                     }
+                },
+                sortedLessons() {
+                    let lessonsSorted = this.lessons.slice(0);
+
+                    if (this.sortBy === "selected") {
+                        return lessonsSorted;
+                    }
+                    console.log("Lessons sorted: ", lessonsSorted);
+
+                    lessonsSorted.sort((a,b) => {
+                        let attr1 = "";
+                        let attr2 = "";
+                        //sorting works but should add code to display according to sort not according to lesson list in js
+
+                        if (this.sortBy === "name") {
+                            
+                            attr1 = a.name.toLowerCase();
+                            attr2 = b.name.toLowerCase();
+                        }
+                        else if (this.sortBy === "location") {
+                            attr1 = a.location.toLowerCase();
+                            attr2 = b.location.toLowerCase();
+                        }
+                        else if (this.sortBy === "price") {
+                            attr1 = a.price;
+                            attr2 = b.price;
+                        }
+                        else if (this.sortBy === "seats") {
+                            attr1 = a.seats;
+                            attr2 = b.seats;
+                        }
+
+                        let result = 0;
+                        if (attr1 < attr2){
+                            result = -1;
+                        }
+                        if (attr1 > attr2){
+                            result = 1;
+                        }
+
+                        return this.orderBy === "desc" ? -result : result;
+                    });
+
+                    return lessonsSorted;
                 }
             }
         });
