@@ -274,6 +274,28 @@ header {
 
 .sub-menu {
     display: flex;
-    color: #E1A587;
+    margin-left: 70px;
     gap: 5%;
+    font-size: 16px;
+    font-family: "Poppins", "sans-serif";
+}
+
+.sort-menu label, .order-menu label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #A42D55;
+    text-shadow: 
+    -2px -2px 0 var(--asc-dpink), /* Top-left */
+    2px -2px 0 var(--asc-dpink),  /* Top-right */
+    -2px 2px 0 var(--asc-dpink),  /* Bottom-left */
+    2px 2px 0 var(--asc-dpink);   /* Bottom-right */
+}
+
+.sort-menu select {
+    background-color: #633040;
+    color: #E1A587;
+    border: 2px solid #E1A587;
+    border-radius: 15px;
+    font-size: 15px;
+    padding: 5px 15px;
 }
