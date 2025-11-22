@@ -25,7 +25,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     height: 100vh;
-    background-image: url(https://stephanie-cst3144-after-school-club.onrender.com/static/bg.jpg);
+    background-image: "https://stephanie-cst3144-after-school-club.onrender.com/static/bg.jpg";
 }
 
 header {
