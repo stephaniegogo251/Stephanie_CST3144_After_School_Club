@@ -260,8 +260,8 @@
                             attr2 = b.price;
                         }
                         else if (this.sortBy === "seats") {
-                            attr1 = a.seats;
-                            attr2 = b.seats;
+                            attr1 = (a.availableSeats - a.quantity);
+                            attr2 = (b.availableSeats - b.quantity);
                         }
 
                         let result = 0;
