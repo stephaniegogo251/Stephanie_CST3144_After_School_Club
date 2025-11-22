@@ -146,11 +146,11 @@
             created() {
                 console.log('requesting data from server ...')
 
-                fetch('http://localhost:3000').then(
+                fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons').then(
                     function (response) {
                         response.json().then(
                             function (json) {
-                                app.lessons = json;
+                                this.lessons = json;
                                 console.log(json);
                             });
                     });
@@ -241,9 +241,7 @@
                     return this.cart.length || "";
                 },
                 selectedLessons() {
-                    for (let i = 0; i < this.confirmCart.length; i++) {
-                        return this.lessons.filter(lesson => this.confirmCart.includes(lesson.id));
-                    }
+                    return this.lessons.filter(lesson => this.confirmCart.includes(lesson.id));
                 },
                 sortedLessons() {
                     let lessonsSorted = this.lessons.slice(0);
