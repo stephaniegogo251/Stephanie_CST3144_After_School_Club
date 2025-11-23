@@ -146,14 +146,15 @@
             created() {
                 console.log('requesting data from server ...')
 
-                fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons').then(
-                    function (response) {
-                        response.json().then(
-                            function (json) {
-                                this.lessons = json;
-                                console.log(json);
-                            });
-                    });
+                fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons')
+                .then(res => res.json())
+                .then(data => {
+                    this.lessons = data
+                    console.log('lessons loaded:', this.lessons);
+                })
+                .catch(err => {
+                    console.error('fetch error: ', err);
+                })
             },
             methods: {
                 addToCart(lesson) {
