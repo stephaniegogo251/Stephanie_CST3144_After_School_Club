@@ -193,20 +193,21 @@ header {
     background-color: #E1A587;
     border: 2px solid #633040;
     border-radius: 30px;
-    width: 850px;
+    width: 1000px;
     height: 200px;
     margin-top: 50px;
     margin-left: 70px;
     padding: 5px 15px;
 }
 
-.book-form, .book-info {
+.book-form, .book-info, .cart-info {
     font-family: "Poppins", "sans-serif";
     color: #A42D55;
     font-size: 20px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    text-wrap: nowrap;
     gap: 5%;
 }
 
@@ -214,8 +215,14 @@ header {
     margin-left: 100px;
 }
 
-.book-form h2, .book-info h2 {
+.book-form h2, .book-info h2, .cart-info h2 {
     margin-bottom: 10px;
+}
+
+.cart-scroll {
+    height: 90px;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 .book-form input, .book-form input:active {

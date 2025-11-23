@@ -120,6 +120,12 @@
                         <p><b>Phone No:</b> {{booking.phone}}</p>
                         <p><b>Email:</b> {{booking.email}}</p>
                     </div>
+                    <div class="cart-info">
+                        <h2>Cart Items</h2>
+                        <div class="cart-scroll">
+                            <p v-for="lesson in selectedLessons">{{lesson.name}} x{{lesson.quantity}}</p>
+                        </div>
+                    </div>
                 </div>
                 <button v-on:click="submitForm()" v-if="canSubmitForm()" class="bookSeatBtn">Book Seats</button>
                 <button v-on:click="submitForm()" v-else class="bookSeatBtn" disabled="disabled">Book Seats</button>
