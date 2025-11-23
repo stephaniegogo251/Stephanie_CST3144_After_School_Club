@@ -149,7 +149,10 @@
                 fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons')
                 .then(res => res.json())
                 .then(data => {
-                    this.lessons = data
+                    this.lessons = data.map(lesson => ({
+                        ...lesson,
+                        image: 'https://stephanie-cst3144-after-school-club.onrender.com/'+lesson.image
+                    }));
                     console.log('lessons loaded:', this.lessons);
                 })
                 .catch(err => {
