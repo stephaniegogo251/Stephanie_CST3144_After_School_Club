@@ -143,18 +143,18 @@
                 sortBy: "selected",
                 orderBy: "asc"
             },
-            // created() {
-            //     console.log('requesting data from server ...')
+            created() {
+                console.log('requesting data from server ...')
 
-            //     fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons').then(
-            //         function (response) {
-            //             response.json().then(
-            //                 function (json) {
-            //                     this.lessons = json;
-            //                     console.log(json);
-            //                 });
-            //         });
-            // },
+                fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons').then(
+                    function (response) {
+                        response.json().then(
+                            function (json) {
+                                this.lessons = json;
+                                console.log(json);
+                            });
+                    });
+            },
             methods: {
                 addToCart(lesson) {
                     this.cart.push(lesson.id);
