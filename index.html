@@ -147,7 +147,8 @@
                     email: ""
                 },
                 sortBy: "selected",
-                orderBy: "asc"
+                orderBy: "asc",
+                orders: []
             },
             created() {
                 console.log('requesting data from server ...')
@@ -172,6 +173,29 @@
                     if (!this.confirmCart.includes(lesson.id)){
                         this.confirmCart.push(lesson.id);
                     }
+                    const updatedLesson = {
+                        "id":lesson.id,
+                        "name":lesson.name,
+                        "location":lesson.location,
+                        "price":lesson.price,
+                        "availableSeats":lesson.availableSeats,
+                        "quantity": lesson.quantity,
+                        "image": lesson.image
+                    }
+                    fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json', //set data type as json
+                        },
+                        body: JSON.stringify(updatedLesson),
+                    })
+                    .then(response => response.json())
+                    .then(repsonseJSON => {
+                        document.getElementById('response').innerText = JSON.stringify(repsonseJSON);
+                    })
+                    .catch((error) => {
+                        document.getElementById('error').innerText = error;
+                    });
                 },
                 canAddToCart(lesson) {
                     return lesson.availableSeats > this.cartCount(lesson.id);
@@ -223,6 +247,16 @@
 
                     if (valid) {
                         alert("Seats booked successfully!");
+                        // const cart_items = {};
+
+                        // for (int i=0; i<cartItemCount)
+
+                        // const newOrder = {
+                        //     id: 100 + this.orders.length,
+                        //     name: this.booking.fullname,
+                        //     phone: this.booking.phone,
+                        //     email: this.booking.email,
+                        // }
 
                         this.booking.fullname = "";
                         this.booking.phone = "";
