@@ -174,7 +174,7 @@
                         this.confirmCart.push(lesson.id);
                     }
                     const updatedLesson = {
-                        "quantity": lesson.quantity,
+                        quantity: lesson.quantity,
                     }
                     fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
                         method: 'PUT',
@@ -184,6 +184,9 @@
                         body: JSON.stringify(updatedLesson),
                     })
                     .then(response => response.json())
+                    .then(function (json) {
+                        console.log("updated lesson: ", json);
+                    })
                     .catch((error) => {
                         console.log(error);
                     });
