@@ -181,7 +181,9 @@
                     if (!this.confirmCart.includes(lesson.id)){
                         this.confirmCart.push(lesson.id);
                     }
-                    const addUpdate = {availableSeats:lesson.availableSeats-1}
+
+                    lesson.availableSeats = lesson.availableSeats - 1
+                    const addUpdate = {availableSeats:lesson.availableSeats}
                     fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
                         method: 'PUT',
                         headers: {
