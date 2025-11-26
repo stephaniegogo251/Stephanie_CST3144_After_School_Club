@@ -183,7 +183,7 @@
                     }
                     const addUpdate = {availableSeats:lesson.availableSeats-1}
                     fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
-                        method: 'POST',
+                        method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json', //set data type as json
                         },
