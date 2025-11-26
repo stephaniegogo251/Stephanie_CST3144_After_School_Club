@@ -190,11 +190,8 @@
                         body: JSON.stringify(updatedLesson),
                     })
                     .then(response => response.json())
-                    .then(repsonseJSON => {
-                        document.getElementById('response').innerText = JSON.stringify(repsonseJSON);
-                    })
                     .catch((error) => {
-                        document.getElementById('error').innerText = error;
+                        console.log(error);
                     });
                 },
                 canAddToCart(lesson) {
