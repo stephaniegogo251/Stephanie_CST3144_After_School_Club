@@ -182,18 +182,17 @@
                         this.confirmCart.push(lesson.id);
                     }
 
-                    lesson.availableSeats = lesson.availableSeats - 1
-                    const addUpdate = {availableSeats:lesson.availableSeats}
                     fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json', //set data type as json
                         },
-                        body: JSON.stringify(addUpdate),
+                        body: JSON.stringify({availableSeats:lesson.availableSeats-1}),
                     })
                     .then(response => response.json())
-                    .then(repsonseJSON => {
-                        console.log("updated: ", repsonseJSON);
+                    .then(updatedLesson => {
+                        lesson.availableSeats = updatedLesson.availableSeats;
+                        console.log("updated: ", updatedLesson);
                     })
                     .catch((error) => {
                         console.log("fetch error: ", error);
