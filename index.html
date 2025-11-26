@@ -182,7 +182,7 @@
                         "quantity": lesson.quantity,
                         "image": lesson.image
                     }
-                    fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons', {
+                    fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json', //set data type as json
