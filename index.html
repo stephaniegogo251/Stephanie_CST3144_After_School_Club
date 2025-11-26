@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="lesson-rows">
-                    <div v-for="lesson in sortedLessons">
+                    <div v-for="lesson in sortedLessons" :key="lesson.id">
                         <div class="lesson">
                             <div class="top-lesson">
                                 <p style="text-align: center;"><b>{{lesson.name}}</b></p>
@@ -55,7 +55,8 @@
                                 <div>
                                     <p>Location: {{lesson.location}}</p>
                                     <p>Price: {{lesson.price}}</p>
-                                    <p>Seats Available: {{ lesson.availableSeats - lesson.quantity }}</p>
+                                    <p>Seats Available: {{ lesson.availableSeats - cartCount(lesson.id) }}</p>
+                                    <!-- <p>Seats Available: {{lesson.availableSeats - lesson.quantity}}</p> -->
                                 </div>
                             </div>
                             <div class="bottom-lesson">
@@ -82,7 +83,7 @@
             <div v-else>
                 <h2 class="checkout"><span class="fas fa-shopping-cart" style="color: #E1A587; font-size: 40px; margin-right: 15px;"></span>Cart</h2>
                 <div class="lesson-scroll">
-                    <div v-for="lesson in selectedLessons">
+                    <div v-for="lesson in selectedLessons" :key="lesson.id">
                         <div class="lesson-scroll-sep">
                             <div class="top-lesson">
                                 <p style="text-align: center;"><b>{{lesson.name}}</b></p>
@@ -94,15 +95,17 @@
                                 <div>
                                     <p>Location: {{lesson.location}}</p>
                                     <p>Price: {{lesson.price}}</p>
-                                    <p>Seats Booked: {{ lesson.quantity }}</p>
+                                    <!-- <p>Seats Booked: {{ lesson.quantity }}</p> -->
+                                    <p>Seats Booked: {{ cartCount(lesson.id) }}</p>
                                 </div>
                             </div>
                             <div class="bottom-lesson">
-                                <button v-on:click="removeFromCart(lesson)" v-if="lesson.quantity > 1" class="addToCartBtn" style="margin-left: 60px;">
+                                <button v-on:click="removeFromCart(lesson)" v-if="cartCount(lesson.id) > 1" class="addToCartBtn" style="margin-left: 60px;">
                                     <span class="fas fa-minus-square" style="color: #E1A587; font-size: 15px; margin-right: 15px; margin-left: 0px;"></span>Remove Seat
                                 </button>
-                                <button v-on:click="removeFromCart(lesson)" v-else-if="lesson.quantity === 1" class="addToCartBtn" style="margin-left: 40px;">
-                                    <span class="far fa-trash-alt" style="color: #E1A587; font-size: 15px; margin-right: 15px; margin-left: 0px;"></span>Remove from Cart                                </button>
+                                <button v-on:click="removeFromCart(lesson)" v-else-if="cartCount(lesson.id) === 1" class="addToCartBtn" style="margin-left: 40px;">
+                                    <span class="far fa-trash-alt" style="color: #E1A587; font-size: 15px; margin-right: 15px; margin-left: 0px;"></span>Remove from Cart
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -123,7 +126,7 @@
                     <div class="cart-info">
                         <h2>Cart Items</h2>
                         <div class="cart-scroll">
-                            <p v-for="lesson in selectedLessons">{{lesson.name}} x{{lesson.quantity}}</p>
+                            <p v-for="lesson in selectedLessons">{{lesson.name}} x{{ cartCount(lesson.id) }}</p>
                         </div>
                     </div>
                 </div>
@@ -139,7 +142,7 @@
                 sitename: "After School Club",
                 lessons: [],
                 showLesson: true,
-                cart: [], //array to store items added to the cart
+                cart: [], // array to store items added to the cart (stores lesson ids)
                 confirmCart: [],
                 booking: {
                     fullname: "",
@@ -168,8 +171,13 @@
             },
             methods: {
                 addToCart(lesson) {
+                    // this.cart.push(lesson.id);
+                    // lesson.quantity = lesson.quantity += 1;
+                    // if (!this.confirmCart.includes(lesson.id)){
+                    //     this.confirmCart.push(lesson.id);
+                    // }
+
                     this.cart.push(lesson.id);
-                    lesson.quantity = lesson.quantity += 1;
                     if (!this.confirmCart.includes(lesson.id)){
                         this.confirmCart.push(lesson.id);
                     }
@@ -199,13 +207,13 @@
                         const index = this.cart.indexOf(lesson.id);
                         if (index !== -1) {
                             this.cart.splice(index, 1);
-                            lesson.quantity -= 1;
+                            // lesson.quantity -= 1;
                         }
                     } 
                     else if (lessonCount === 1) {
                         this.cart = this.cart.filter(id => id !== lesson.id);
                         this.confirmCart = this.confirmCart.filter(id => id !== lesson.id);
-                        lesson.quantity = 0;
+                        // lesson.quantity = 0;
                     }
 
                     if (this.cart.length === 0){
@@ -224,16 +232,7 @@
 
                     if (valid) {
                         alert("Seats booked successfully!");
-                        // const cart_items = {};
-
-                        // for (int i=0; i<cartItemCount)
-
-                        // const newOrder = {
-                        //     id: 100 + this.orders.length,
-                        //     name: this.booking.fullname,
-                        //     phone: this.booking.phone,
-                        //     email: this.booking.email,
-                        // }
+                        // this.lessons.forEach(lesson => { lesson.quantity = 0; });
 
                         this.booking.fullname = "";
                         this.booking.phone = "";
@@ -241,9 +240,6 @@
 
                         this.cart = [];
                         this.confirmCart = [];
-                        this.lessons.forEach(lesson => {
-                            lesson.quantity = 0;
-                        });
 
                         this.showLesson = true;
                         return true;
@@ -275,10 +271,8 @@
                     lessonsSorted.sort((a,b) => {
                         let attr1 = "";
                         let attr2 = "";
-                        //sorting works but should add code to display according to sort not according to lesson list in js
 
                         if (this.sortBy === "name") {
-                            
                             attr1 = a.name.toLowerCase();
                             attr2 = b.name.toLowerCase();
                         }
@@ -291,8 +285,10 @@
                             attr2 = b.price;
                         }
                         else if (this.sortBy === "seats") {
-                            attr1 = (a.availableSeats - a.quantity);
-                            attr2 = (b.availableSeats - b.quantity);
+                            //attr1 = (a.availableSeats - a.quantity);
+                            // attr2 = (b.availableSeats - b.quantity);
+                            attr1 = (a.availableSeats - this.cartCount(a.id));
+                            attr2 = (b.availableSeats - this.cartCount(b.id));
                         }
 
                         let result = 0;
