@@ -70,7 +70,7 @@
                                     Club Full!
                                 </span>
                                 <span v-else-if="lesson.availableSeats - cartCount(lesson.id) < 5" id="mid">
-                                    Just {{lesson.availableSeats - cartCount(lesson.id)}} spots left!
+                                    Just {{5 - cartCount(lesson.id)}} spots left!
                                 </span>
                                 <span v-else>
                                     Join Now!
