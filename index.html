@@ -69,8 +69,8 @@
                                 <span v-if="lesson.availableSeats === cartCount(lesson.id)">
                                     Club Full!
                                 </span>
-                                <span v-else-if="lesson.availableSeats < 5" id="mid">
-                                    Just {{lesson.availableSeats}} spots left!
+                                <span v-else-if="lesson.availableSeats - cartCount(lesson.id) < 5" id="mid">
+                                    Just {{lesson.availableSeats - cartCount(lesson.id)}} spots left!
                                 </span>
                                 <span v-else>
                                     Join Now!
@@ -181,13 +181,12 @@
                     if (!this.confirmCart.includes(lesson.id)){
                         this.confirmCart.push(lesson.id);
                     }
-                    lesson.availableSeats -= 1;
                     fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json', //set data type as json
                         },
-                        body: JSON.stringify({availableSeats:lesson.availableSeats}),
+                        body: JSON.stringify({availableSeats:lesson.availableSeats - this.cartCount(lesson.id)}),
                     })
                     .then(response => response.json())
                     .then(updatedLesson => {
