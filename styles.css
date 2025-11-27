@@ -223,6 +223,7 @@ header {
     height: 90px;
     overflow-y: auto;
     padding-right: 10px;
+    overflow-x: hidden;
 }
 
 .book-form input, .book-form input:active {
