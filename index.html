@@ -262,6 +262,36 @@
                         alert("Seats booked successfully!");
                         // this.lessons.forEach(lesson => { lesson.quantity = 0; });
 
+                        const cart_info = {};
+
+                        for (let i = 0; i < this.confirmCart.length; i++) {
+                            const cart_item = this.cart.find(item => item.id === confirmCart[i]);
+                            cart_info[cart_item.name] = cart_item.availableSeats;
+                        }
+
+                        const newOrder = {
+                            "id": 100+this.orders.length,
+                            "name":this.booking.fullname,
+                            "phone":this.booking.phone,
+                            "email":this.booking.email,
+                            "cart_info": cart_info
+
+                        }
+                        fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/orders', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json', //set data type as json
+                            },
+                            body: JSON.stringify(newOrder),
+                        })
+                        .then(response => response.json())
+                        .then(repsonseJSON => {
+                            console.log("added new order: ", repsonseJSON);
+                        })
+                        .catch((error) => {
+                            console.log("fetch error: ", error);
+                        });
+
                         this.booking.fullname = "";
                         this.booking.phone = "";
                         this.booking.email = "";
