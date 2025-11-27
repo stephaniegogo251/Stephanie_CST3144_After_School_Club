@@ -276,6 +276,7 @@
 
                         for (let i = 0; i < this.confirmCart.length; i++) {
                             const cart_item = this.cart.find(item => item.id === this.confirmCart[i]);
+                            console.log(cart_item);
                             cart_info[cart_item.name] = this.cartCount(cart_item.id);
                         }
 
