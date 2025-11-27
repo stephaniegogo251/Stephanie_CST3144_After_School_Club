@@ -167,7 +167,17 @@
                 })
                 .catch(err => {
                     console.error('fetch error: ', err);
+                });
+
+                fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/orders')
+                .then(res => res.json())
+                .then(data => {
+                    this.orders = data;
+                    console.log('lessons loaded:', this.lessons);
                 })
+                .catch(err => {
+                    console.error('fetch error: ', err);
+                });
             },
             methods: {
                 addToCart(lesson) {
