@@ -266,7 +266,7 @@
 
                         for (let i = 0; i < this.confirmCart.length; i++) {
                             const cart_item = this.cart.find(item => item.id === confirmCart[i]);
-                            cart_info[cart_item.name] = cart_item.availableSeats;
+                            cart_info[cart_item.name] = this.cartCount(cart_item.id);
                         }
 
                         const newOrder = {
@@ -277,6 +277,9 @@
                             "cart_info": cart_info
 
                         }
+
+                        this.orders.push(newOrder);
+                        
                         fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/orders', {
                             method: 'POST',
                             headers: {
