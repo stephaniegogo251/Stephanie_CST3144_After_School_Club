@@ -180,12 +180,6 @@
             },
             methods: {
                 addToCart(lesson) {
-                    // this.cart.push(lesson.id);
-                    // lesson.quantity = lesson.quantity += 1;
-                    // if (!this.confirmCart.includes(lesson.id)){
-                    //     this.confirmCart.push(lesson.id);
-                    // }
-
                     this.cart.push(lesson.id);
                     if (!this.confirmCart.includes(lesson.id)){
                         this.confirmCart.push(lesson.id);
@@ -230,13 +224,11 @@
                         const index = this.cart.indexOf(lesson.id);
                         if (index !== -1) {
                             this.cart.splice(index, 1);
-                            // lesson.quantity -= 1;
                         }
                     } 
                     else if (lessonCount === 1) {
                         this.cart = this.cart.filter(id => id !== lesson.id);
                         this.confirmCart = this.confirmCart.filter(id => id !== lesson.id);
-                        // lesson.quantity = 0;
                     }
 
                     if (this.cart.length === 0){
@@ -269,12 +261,12 @@
 
                     if (valid) {
                         alert("Seats booked successfully!");
-                        // this.lessons.forEach(lesson => { lesson.quantity = 0; });
 
                         const cart_info = {};
 
                         for (let i = 0; i < this.confirmCart.length; i++) {
                             const cart_item = this.lessons.filter(lesson => this.confirmCart.includes(lesson.id));
+                            console.log(cart_item);
                             cart_info[cart_item.name] = this.cartCount(cart_item.id);
                         }
 
@@ -298,14 +290,14 @@
                         .then(repsonseJSON => {
                             console.log("added new order: ", repsonseJSON);
 
-                            //add fetch to reset spaces for all lessons
-
                             this.booking.fullname = "";
                             this.booking.phone = "";
                             this.booking.email = "";
 
                             this.cart = [];
                             this.confirmCart = [];
+
+                            //add fetch to reset spaces for all lessons
 
                             this.showLesson = true;
                             return true;
