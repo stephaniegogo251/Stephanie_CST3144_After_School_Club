@@ -167,16 +167,6 @@
                 .catch(err => {
                     console.error('fetch error: ', err);
                 });
-
-                fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/orders')
-                .then(res => res.json())
-                .then(data => {
-                    this.orders = data;
-                    console.log('lessons loaded:', this.lessons);
-                })
-                .catch(err => {
-                    console.error('fetch error: ', err);
-                });
             },
             methods: {
                 addToCart(lesson) {
@@ -252,7 +242,7 @@
                 submitForm() {
                     const namePattern = /^[A-Za-z\s]+$/;
                     const phoneNumPattern = /^05\d{8}$/;
-                    const emailIDPattern = /^[\w._]+@[\w]+.com$/;
+                    const emailIDPattern = /^[\w._]+@[\w]+\.(com)$/;
 
                     const valid = (
                         (this.booking.fullname !== "") && (namePattern.test(this.booking.fullname))) && 
@@ -263,33 +253,34 @@
                         alert("Seats booked successfully!");
 
                         const cart_info = {};
-
+                        
                         for (let i = 0; i < this.confirmCart.length; i++) {
-                            const cart_item = this.lessons.filter(lesson => this.confirmCart.includes(lesson.id));
+                            const cart_item = this.lessons.find(lesson => lesson.id === this.confirmCart[i]);
                             console.log(cart_item);
                             cart_info[cart_item.name] = this.cartCount(cart_item.id);
                         }
 
                         const newOrder = {
-                            "name":this.booking.fullname,
-                            "phone":this.booking.phone,
-                            "email":this.booking.email,
-                            "cart_info": cart_info
-                        }
+                            name: this.booking.fullname,
+                            phone: this.booking.phone,
+                            email: this.booking.email,
+                            cart_info: cart_info
+                        };
 
-                        console.log(newOrder);
+                        console.log("newOrder:", newOrder);
 
                         fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/orders', {
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json', //set data type as json
-                            },
-                            body: JSON.stringify(newOrder),
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(newOrder)
                         })
-                        .then(response => response.json())
-                        .then(repsonseJSON => {
-                            console.log("added new order: ", repsonseJSON);
+                        .then(res => {
+                            console.log(res.json());
+                        })
+                        .then(responseJSON => {
+                            console.log("added new order:", responseJSON);
 
+                            // clear form and cart
                             this.booking.fullname = "";
                             this.booking.phone = "";
                             this.booking.email = "";
@@ -297,13 +288,27 @@
                             this.cart = [];
                             this.confirmCart = [];
 
-                            //add fetch to reset spaces for all lessons
-
-                            this.showLesson = true;
-                            return true;
+                            return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons');
                         })
-                        .catch((error) => {
-                            console.log("fetch error: ", error);
+                        .then(res => {
+                            console.log(res.json());
+                        })
+                        .then(data => {
+                            this.lessons = data.map(lesson => ({
+                                ...lesson,
+                                availableSeats: 5
+                            }));
+                            fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json', //set data type as json
+                                },
+                                body: JSON.stringify({availableSeats:5}),
+                            })
+                            this.showLesson = true;
+                        })
+                        .catch(error => {
+                            console.error("fetch error:", error);
                         });
                     }
                 },
@@ -347,8 +352,6 @@
                             attr2 = b.price;
                         }
                         else if (this.sortBy === "seats") {
-                            //attr1 = (a.availableSeats - a.quantity);
-                            // attr2 = (b.availableSeats - b.quantity);
                             attr1 = (a.availableSeats - this.cartCount(a.id));
                             attr2 = (b.availableSeats - this.cartCount(b.id));
                         }
