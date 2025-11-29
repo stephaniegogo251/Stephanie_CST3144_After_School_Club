@@ -151,7 +151,6 @@
                 },
                 sortBy: "selected",
                 orderBy: "asc",
-                orders: []
             },
             created() {
                 console.log('requesting data from server ...')
@@ -281,15 +280,13 @@
                         }
 
                         const newOrder = {
-                            "id": 100+this.orders.length,
                             "name":this.booking.fullname,
                             "phone":this.booking.phone,
                             "email":this.booking.email,
                             "cart_info": cart_info
-
                         }
 
-                        this.orders.push(newOrder);
+                        console.log(newOrder);
 
                         fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/orders', {
                             method: 'POST',
@@ -301,20 +298,22 @@
                         .then(response => response.json())
                         .then(repsonseJSON => {
                             console.log("added new order: ", repsonseJSON);
+
+                            //add fetch to reset spaces for all lessons
+
+                            this.booking.fullname = "";
+                            this.booking.phone = "";
+                            this.booking.email = "";
+
+                            this.cart = [];
+                            this.confirmCart = [];
+
+                            this.showLesson = true;
+                            return true;
                         })
                         .catch((error) => {
                             console.log("fetch error: ", error);
                         });
-
-                        this.booking.fullname = "";
-                        this.booking.phone = "";
-                        this.booking.email = "";
-
-                        this.cart = [];
-                        this.confirmCart = [];
-
-                        this.showLesson = true;
-                        return true;
                     }
                 },
                 canSubmitForm() {
