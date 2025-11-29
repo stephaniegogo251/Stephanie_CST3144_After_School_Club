@@ -274,8 +274,7 @@
                         const cart_info = {};
 
                         for (let i = 0; i < this.confirmCart.length; i++) {
-                            const cart_item = this.cart.find(item => item.id === this.confirmCart[i]);
-                            console.log(cart_item);
+                            const cart_item = this.lessons.filter(lesson => this.confirmCart.includes(lesson.id));
                             cart_info[cart_item.name] = this.cartCount(cart_item.id);
                         }
 
