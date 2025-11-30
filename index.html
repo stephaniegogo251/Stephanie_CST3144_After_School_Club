@@ -224,7 +224,7 @@
                     if (this.cart.length === 0){
                         this.showLesson = true;
                     }
-                    fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
+                    fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson._id, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json', //set data type as json
@@ -287,8 +287,8 @@
                             this.cart = [];
                             this.confirmCart = [];
 
-                            const updatedLessons = this.lessons = data.map(lesson => {
-                                return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
+                            const updatedLessons = this.lessons.map(lesson => {
+                                return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson._id, {
                                     method: 'PUT',
                                     headers: {
                                         'Content-Type': 'application/json', //set data type as json
