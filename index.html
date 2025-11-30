@@ -289,6 +289,7 @@
                             this.confirmCart = [];
 
                             return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons');
+                            this.showLesson = true;
                         })
                         .then(res => {
                             console.log(res.json());
@@ -305,7 +306,6 @@
                                 },
                                 body: JSON.stringify({availableSeats:5}),
                             })
-                            this.showLesson = true;
                         })
                         .catch(error => {
                             console.error("fetch error:", error);
