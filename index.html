@@ -277,8 +277,6 @@
                         .then(responseJSON => {
                             console.log("added new order:", responseJSON);
 
-                            alert("Seats booked successfully!");
-
                             // clear form and cart
                             this.booking.fullname = "";
                             this.booking.phone = "";
@@ -287,25 +285,17 @@
                             this.cart = [];
                             this.confirmCart = [];
 
-                            // const updatedLessons = this.lessons = data.map(lesson => {
-                            //     return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
-                            //         method: 'PUT',
-                            //         headers: {
-                            //             'Content-Type': 'application/json', //set data type as json
-                            //         },
-                            //         body: JSON.stringify({availableSeats:5}),
-                            //     });
-                            // });
-                            // //goes to next part only after all lessons are updated
-                            // return Promise.all(updatedLessons);
-
-                            return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
-                                method: 'PUT',
-                                headers: {
-                                    'Content-Type': 'application/json', //set data type as json
-                                },
-                                body: JSON.stringify({availableSeats:5}),
+                            const updatedLessons = this.lessons = data.map(lesson => {
+                                return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json', //set data type as json
+                                    },
+                                    body: JSON.stringify({availableSeats:5}),
+                                });
                             });
+                            //goes to next part only after all lessons are updated
+                            return Promise.all(updatedLessons);
 
                         })
                         .then(() => {
@@ -315,6 +305,7 @@
                             return response.json();
                         })
                         .then(updatedLessons => {
+                            alert("Seats booked successfully!");
                             this.lessons = updatedLessons;
                             this.showLesson = true;
                         })
