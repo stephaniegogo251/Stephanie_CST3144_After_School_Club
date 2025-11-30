@@ -307,7 +307,10 @@
                             return response.json();
                         })
                         .then(updatedLessons => {
-                            this.lessons = updatedLessons;
+                            this.lessons = updatedLessons.map(lesson => ({
+                                ...lesson,
+                                image: 'https://stephanie-cst3144-after-school-club.onrender.com/'+lesson.image
+                            }));
                             this.showLesson = true;
                         })
                         .catch(error => {
