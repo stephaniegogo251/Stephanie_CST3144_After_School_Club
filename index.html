@@ -250,13 +250,10 @@
                         (emailIDPattern.test(this.booking.email));
 
                     if (valid) {
-                        alert("Seats booked successfully!");
-
                         const cart_info = {};
                         
                         for (let i = 0; i < this.confirmCart.length; i++) {
                             const cart_item = this.lessons.find(lesson => lesson.id === this.confirmCart[i]);
-                            console.log(cart_item);
                             cart_info[cart_item.name] = this.cartCount(cart_item.id);
                         }
 
@@ -275,10 +272,12 @@
                             body: JSON.stringify(newOrder)
                         })
                         .then(res => {
-                            console.log(res.json());
+                            return res.json()
                         })
                         .then(responseJSON => {
                             console.log("added new order:", responseJSON);
+
+                            alert("Seats booked successfully!");
 
                             // clear form and cart
                             this.booking.fullname = "";
@@ -287,23 +286,37 @@
 
                             this.cart = [];
                             this.confirmCart = [];
-                        })
-                        .then(res => {
-                            this.lessons = data.map(lesson => ({
-                                ...lesson,
-                                availableSeats: 5
-                            }));
-                            fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
+
+                            // const updatedLessons = this.lessons = data.map(lesson => {
+                            //     return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
+                            //         method: 'PUT',
+                            //         headers: {
+                            //             'Content-Type': 'application/json', //set data type as json
+                            //         },
+                            //         body: JSON.stringify({availableSeats:5}),
+                            //     });
+                            // });
+                            // //goes to next part only after all lessons are updated
+                            // return Promise.all(updatedLessons);
+
+                            return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson.id, {
                                 method: 'PUT',
                                 headers: {
                                     'Content-Type': 'application/json', //set data type as json
                                 },
                                 body: JSON.stringify({availableSeats:5}),
                             });
+
                         })
-                        .then(data => {
-                            this.showLesson = true;
+                        .then(() => {
                             return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons');
+                        })
+                        .then(response => {
+                            return response.json();
+                        })
+                        .then(updatedLessons => {
+                            this.lessons = updatedLessons;
+                            this.showLesson = true;
                         })
                         .catch(error => {
                             console.error("fetch error:", error);
