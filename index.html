@@ -277,6 +277,8 @@
                         .then(responseJSON => {
                             console.log("added new order:", responseJSON);
 
+                            alert("Seats booked successfully!");
+
                             // clear form and cart
                             this.booking.fullname = "";
                             this.booking.phone = "";
@@ -305,7 +307,6 @@
                             return response.json();
                         })
                         .then(updatedLessons => {
-                            alert("Seats booked successfully!");
                             this.lessons = updatedLessons;
                             this.showLesson = true;
                         })
