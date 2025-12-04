@@ -170,7 +170,7 @@
                     const searchQ = this.searchQuery.trim();
                     let fetchURL = "https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons"
                     if (searchQ !== ""){
-                        fetchURL = 'https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/search?='+searchQ;
+                        fetchURL = 'https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/search?q='+searchQ;
                     }
 
                     fetch(fetchURL)
