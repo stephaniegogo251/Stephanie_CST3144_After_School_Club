@@ -280,10 +280,36 @@ header {
     cursor: not-allowed;
 }
 
-.sub-menu {
+.searchFilterOpt {
     display: flex;
     margin-left: 170px;
     margin-top: 40px;
+    gap: 5%;
+}
+
+.search-bar {
+    background-color: #E1A587;
+    color: #A42D55;
+    border: 2px solid #A42D55;
+    border-radius: 30px;
+    width: 620px;
+    height: 50px;
+    font-size: 20px;
+    font-family: "Poppins", "sans-serif";
+}
+
+.search-bar:focus {
+    outline: 1px solid #A42D55;
+}
+
+::placeholder {
+    color: rgba(164, 45, 85, 0.7);
+}
+
+.sub-menu {
+    display: flex;
+    /* margin-left: 170px;
+    margin-top: 40px; */
     gap: 5%;
     padding: 10px;
     background-color: #E1A587;

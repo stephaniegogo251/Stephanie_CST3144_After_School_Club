@@ -23,23 +23,26 @@
         </header>
         <main>
             <div v-if="showLesson">
-                <div class="sub-menu">
-                    <div class="sort-menu">
-                        <label for="sortBy">Sort By:</label>
-                        <select id="sortBy" v-model="sortBy">
-                            <option value="selected" selected>Select</option>
-                            <option value="name">Name</option>
-                            <option value="location">Location</option>
-                            <option value="price">Price</option>
-                            <option value="seats">Seats</option>
-                        </select>
-                    </div>
-                    <div class="order-menu">
-                        <label for="orderBy">Order By:</label>
-                        <select id="orderBy" v-model="orderBy">
-                            <option value="asc" selected>Ascending</option>
-                            <option value="desc">Descending</option>
-                        </select>
+                <div class="searchFilterOpt">
+                    <input class="search-bar" type="text" placeholder="Search for lesson by name, location, price or seat availability" v-model.trim="searchQuery"/>
+                    <div class="sub-menu">
+                        <div class="sort-menu">
+                            <label for="sortBy">Sort By:</label>
+                            <select id="sortBy" v-model="sortBy">
+                                <option value="selected" selected>Select</option>
+                                <option value="name">Name</option>
+                                <option value="location">Location</option>
+                                <option value="price">Price</option>
+                                <option value="seats">Seats</option>
+                            </select>
+                        </div>
+                        <div class="order-menu">
+                            <label for="orderBy">Order By:</label>
+                            <select id="orderBy" v-model="orderBy">
+                                <option value="asc" selected>Ascending</option>
+                                <option value="desc">Descending</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="lesson-rows">
@@ -56,7 +59,6 @@
                                     <p>Location: {{lesson.location}}</p>
                                     <p>Price: {{lesson.price}}</p>
                                     <p>Seats Available: {{ lesson.availableSeats - cartCount(lesson.id) }}</p>
-                                    <!-- <p>Seats Available: {{lesson.availableSeats - lesson.quantity}}</p> -->
                                 </div>
                             </div>
                             <div class="bottom-lesson">
@@ -95,7 +97,6 @@
                                 <div>
                                     <p>Location: {{lesson.location}}</p>
                                     <p>Price: {{lesson.price}}</p>
-                                    <!-- <p>Seats Booked: {{ lesson.quantity }}</p> -->
                                     <p>Seats Booked: {{ cartCount(lesson.id) }}</p>
                                 </div>
                             </div>
@@ -151,24 +152,40 @@
                 },
                 sortBy: "selected",
                 orderBy: "asc",
+                searchQuery: "",
             },
             created() {
-                console.log('requesting data from server ...')
-
-                fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons')
-                .then(res => res.json())
-                .then(data => {
-                    this.lessons = data.map(lesson => ({
-                        ...lesson,
-                        image: 'https://stephanie-cst3144-after-school-club.onrender.com/'+lesson.image
-                    }));
-                    console.log('lessons loaded:', this.lessons);
-                })
-                .catch(err => {
-                    console.error('fetch error: ', err);
-                });
+                this.getLessons();
+            },
+            watch: {
+                searchQuery: {
+                    handler: 'getLessons',
+                    immediate: true
+                }
             },
             methods: {
+                getLessons() {
+                    console.log('requesting data from server ...')
+
+                    const searchQ = this.searchQuery.trim();
+                    const fetchURL = "https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons"
+                    if (searchQ !== ""){
+                        fetchURL = 'https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/search?='+searchQ;
+                    }
+
+                    fetch(fetchURL)
+                    .then(res => res.json())
+                    .then(data => {
+                        this.lessons = data.map(lesson => ({
+                            ...lesson,
+                            image: 'https://stephanie-cst3144-after-school-club.onrender.com/'+lesson.image
+                        }));
+                        console.log('lessons loaded:', this.lessons);
+                    })
+                    .catch(err => {
+                        console.error('fetch error: ', err);
+                    });
+                },
                 addToCart(lesson) {
                     this.cart.push(lesson.id);
                     if (!this.confirmCart.includes(lesson.id)){
