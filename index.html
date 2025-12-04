@@ -24,7 +24,7 @@
         <main>
             <div v-if="showLesson">
                 <div class="searchFilterOpt">
-                    <input class="search-bar" type="text" placeholder="Search for lesson by name, location, price or seat availability" v-model.trim="searchQuery" v-on:change="getLessons"/>
+                    <input class="search-bar" type="text" placeholder="Search for lesson by name, location, price or seat availability" v-model.trim="searchQuery" v-on:input="getLessons"/>
                     <div class="sub-menu">
                         <div class="sort-menu">
                             <label for="sortBy">Sort By:</label>
