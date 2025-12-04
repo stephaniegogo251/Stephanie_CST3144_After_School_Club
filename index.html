@@ -168,7 +168,7 @@
                     console.log('requesting data from server ...')
 
                     const searchQ = this.searchQuery.trim();
-                    const fetchURL = "https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons"
+                    let fetchURL = "https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons"
                     if (searchQ !== ""){
                         fetchURL = 'https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/search?='+searchQ;
                     }
