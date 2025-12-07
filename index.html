@@ -5,7 +5,6 @@
     <link href="./styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=shopping_cart" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
-    <script src="lessons.js"></script>
     <title>After School Club</title>
 </head>
 <body>
@@ -137,26 +136,29 @@
         </main>
     </div>
     <script type="text/javascript">
+        // create instance of vue
         let webstore = new Vue({
-            el:'#app',
+            el:'#app', //mount vue to element with 'app' as id
             data: {
                 sitename: "After School Club",
-                lessons: [],
-                showLesson: true,
+                lessons: [], //array to store fetched lessons
+                showLesson: true, //toggles between lesson page and cart page
                 cart: [], // array to store items added to the cart (stores lesson ids)
-                confirmCart: [],
-                booking: {
+                confirmCart: [], //stores unique id of lessons in cart
+                booking: { //object to store booking details
                     fullname: "",
                     phone: "",
                     email: ""
                 },
-                sortBy: "selected",
-                orderBy: "asc",
-                searchQuery: "",
+                sortBy: "selected", //sorting menu
+                orderBy: "asc", //order menu - ascending/descending
+                searchQuery: "", //stores search-bar's input
             },
+            //this function is called as soon as the page loads
             created() {
-                this.getLessons();
+                this.getLessons(); //fetch lesson data
             },
+            //watches for change in search bar and filters lesson data accordingly
             watch: {
                 searchQuery: {
                     handler: 'getLessons',
@@ -164,6 +166,7 @@
                 }
             },
             methods: {
+                //method to fetch lessons from server along with filtered lessons if search query is given by user
                 getLessons() {
                     console.log('requesting data from server ...')
 
@@ -186,11 +189,13 @@
                         console.error('fetch error: ', err);
                     });
                 },
+                //method to add lesson to cart
                 addToCart(lesson) {
                     this.cart.push(lesson.id);
                     if (!this.confirmCart.includes(lesson.id)){
                         this.confirmCart.push(lesson.id);
                     }
+                    //update available seats for specific lesson
                     fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson._id, {
                         method: 'PUT',
                         headers: {
@@ -206,15 +211,19 @@
                         console.log("fetch error: ", error);
                     });
                 },
+                //checks if seats are available to add to cart
                 canAddToCart(lesson) {
                     return lesson.availableSeats > this.cartCount(lesson.id);
                 },
+                //toggles view between lessons and cart
                 showShoppingCart() {
                     this.showLesson = this.showLesson ? false : true;
                 },
+                //checks if cart has lessons
                 enableCart() {
                     return this.cartItemCount > 0;
                 },
+                //counts number of specific lesson id in the cart
                 cartCount(id) {
                     let count = 0;
                     for (let i = 0; i < this.cart.length; i++){
@@ -224,6 +233,7 @@
                     }
                     return count;
                 },
+                //removes either a seat or the entire lesson from cart
                 removeFromCart(lesson) {
                     const lessonCount = this.cartCount(lesson.id);
 
@@ -241,6 +251,7 @@
                     if (this.cart.length === 0){
                         this.showLesson = true;
                     }
+                    //updates seats available for specific lesson
                     fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson._id, {
                         method: 'PUT',
                         headers: {
@@ -256,6 +267,7 @@
                         console.log("fetch error: ", error);
                     });
                 },
+                //submits booking form and creates a new order
                 submitForm() {
                     const namePattern = /^[A-Za-z\s]+$/;
                     const phoneNumPattern = /^05\d{8}$/;
@@ -282,7 +294,7 @@
                         };
 
                         console.log("newOrder:", newOrder);
-
+                        //posts new order to server
                         fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/orders', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -304,6 +316,7 @@
                             this.cart = [];
                             this.confirmCart = [];
 
+                            //reset all lessons to have 5 available seats
                             const updatedLessons = this.lessons.map(lesson => {
                                 return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons/'+lesson._id, {
                                     method: 'PUT',
@@ -318,12 +331,14 @@
 
                         })
                         .then(() => {
+                            //fetches lessons again to update frontend
                             return fetch('https://stephanie-cst3144-after-school-club.onrender.com/collection/lessons');
                         })
                         .then(response => {
                             return response.json();
                         })
                         .then(updatedLessons => {
+                            //updates lessons array and goes back to lesson page
                             this.lessons = updatedLessons.map(lesson => ({
                                 ...lesson,
                                 image: 'https://stephanie-cst3144-after-school-club.onrender.com/'+lesson.image
@@ -350,6 +365,7 @@
                 selectedLessons() {
                     return this.lessons.filter(lesson => this.confirmCart.includes(lesson.id));
                 },
+                //filters and sorts lessons according to user input
                 sortedLessons() {
                     let lessonsSorted = this.lessons.slice(0);
 
@@ -387,6 +403,7 @@
                             result = 1;
                         }
 
+                        //apply ascending or descending order
                         return this.orderBy === "desc" ? -result : result;
                     });
 
